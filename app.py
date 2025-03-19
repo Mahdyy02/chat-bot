@@ -11,8 +11,6 @@ logger = logging.getLogger(__name__)
 # Load environment variables (for API key)
 # load_dotenv()
 
-st.write("API Key found:", "Yes" if "DEEPSEEK_API_KEY" in st.secrets else "No")
-
 # Initialize the OpenAI client for OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
@@ -36,6 +34,8 @@ Maintain a very friendly and welcoming tone while being strict about the timing.
 def main():
     st.set_page_config(page_title="Room Service", page_icon="🤖")
     st.title("Room Service 🤖")
+
+    st.write("API Key found:", "Yes" if "DEEPSEEK_API_KEY" in st.secrets else "No")
 
     # Initialize session state for chat history
     if "chat_history" not in st.session_state:
