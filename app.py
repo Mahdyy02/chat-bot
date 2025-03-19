@@ -1,23 +1,23 @@
 import streamlit as st
 from openai import OpenAI
-# import os
-# from dotenv import load_dotenv
 import logging
 
 # Configure logging to see output in the console
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-# Load environment variables (for API key)
-# load_dotenv()
+# Fetch the API key from st.secrets (this is for Streamlit deployment)
+api_key = st.secrets.get("DEEPSEEK_API_KEY")
 
-# Initialize the OpenAI client for OpenRouter
-api_key = st.secrets["DEEPSEEK_API_KEY"]
-
-client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=api_key
-)
+if not api_key:
+    st.error("API key is missing! Please set your DEEPSEEK_API_KEY in the Streamlit secrets.")
+    logger.error("DEEPSEEK_API_KEY not found in st.secrets.")
+else:
+    # Initialize the OpenAI client for OpenRouter if API key is available
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=api_key,  # Ensure the API key is set here
+    )
 
 # Bot backstory (Only modifiable in the code by developers)
 bot_backstory = '''
@@ -85,7 +85,10 @@ def main():
                     bot_response = "I apologize, I seem to have misunderstood. Let’s try again. How can I assist you today?"
                     logger.debug("Response contained code; using fallback message.")
 
-        except Exception as e:
+        except openai.error.AuthenticationError as e:
+            bot_response = "Authentication error: Invalid API key. Please check your API credentials."
+            logger.error("AuthenticationError: %s", str(e))
+        except openai.error.OpenAIError as e:
             bot_response = f"Error: {str(e)}"
             logger.error("API Error: %s", str(e))  # Log the error with more detail
 
@@ -99,5 +102,5 @@ def main():
             logger.debug("Response displayed: %s", bot_response)
 
 # Run the app
-if __name__ == "__main__":
+if __name__ == "__main__": 
     main()
