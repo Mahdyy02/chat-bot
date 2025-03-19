@@ -16,7 +16,7 @@ api_key = st.secrets["DEEPSEEK_API_KEY"]
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=api_key
+    default_headers={"Authorization": f"Bearer {api_key}"}
 )
 
 # Bot backstory (Only modifiable in the code by developers)
