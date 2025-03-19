@@ -1,23 +1,18 @@
 import streamlit as st
 from openai import OpenAI
-import os
-from dotenv import load_dotenv
 import logging
 
 # Configure logging to see output in the console
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-# Load environment variables (for API key)
-load_dotenv()
-
 # Initialize the OpenAI client for OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=st.secrets["DEEPSEEK_API_KEY"],  # Ensure you have DEEPSEEK_API_KEY in your .env file
+    api_key=st.secrets["DEEPSEEK_API_KEY"],  # Use Streamlit secrets
 )
 
-# Bot backstory (Only modifiable in the code by developers)
+# Bot backstory (unchanged)
 bot_backstory = '''
 You are a room service assistant at a luxury hotel. Your role is to assist guests with various services, including restaurant recommendations and reservations, housekeeping requests, in-room dining and delivery, concierge services, and general hotel amenities. Be extremely polite, professional, and accommodating, ensuring that guests feel valued and well taken care of.
 Always identify yourself as the room service assistant and provide detailed, helpful responses to their inquiries.
@@ -30,7 +25,7 @@ Always answer in the same language as the prompt.
 Maintain a very friendly and welcoming tone while being strict about the timing.
 '''
 
-# Streamlit app
+# Streamlit app (rest of your code remains unchanged)
 def main():
     st.set_page_config(page_title="Room Service", page_icon="🤖")
     st.title("Room Service 🤖")
@@ -70,10 +65,10 @@ def main():
             logger.debug("Calling API with messages: %s", messages)
             with st.spinner("Thinking..."):
                 response = client.chat.completions.create(
-                    model="meta-llama/llama-3-8b-instruct",  # Try a different model
+                    model="meta-llama/llama-3-8b-instruct",
                     messages=messages,
-                    temperature=0.7,  # Adjust for creativity
-                    max_tokens=512,  # Limit response length
+                    temperature=0.7,
+                    max_tokens=512,
                 )
                 bot_response = response.choices[0].message.content
                 logger.debug("API response received: %s", bot_response)
@@ -85,7 +80,7 @@ def main():
 
         except Exception as e:
             bot_response = f"Error: {str(e)}"
-            logger.error("API Error: %s", str(e))  # Log the error with more detail
+            logger.error("API Error: %s", str(e))
 
         # Add bot's response to chat history
         st.session_state.chat_history.append({"role": "assistant", "content": bot_response})
