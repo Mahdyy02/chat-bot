@@ -12,9 +12,11 @@ logger = logging.getLogger(__name__)
 # load_dotenv()
 
 # Initialize the OpenAI client for OpenRouter
+api_key = st.secrets["DEEPSEEK_API_KEY"]
+
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=st.secrets["DEEPSEEK_API_KEY"],  # Ensure you have DEEPSEEK_API_KEY in your .env file
+    api_key=api_key
 )
 
 # Bot backstory (Only modifiable in the code by developers)
