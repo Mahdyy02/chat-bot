@@ -11,6 +11,8 @@ logger = logging.getLogger(__name__)
 # Load environment variables (for API key)
 # load_dotenv()
 
+st.write("API Key found:", "Yes" if "DEEPSEEK_API_KEY" in st.secrets else "No")
+
 # Initialize the OpenAI client for OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
