@@ -38,7 +38,7 @@ def main():
     st.set_page_config(page_title="Room Service", page_icon="🤖")
     st.title("Room Service 🤖")
 
-    st.write("API Key found:", "Yes" if "DEEPSEEK_API_KEY" in st.secrets else "No")
+    st.write("API Key found:", api_key)
 
     # Initialize session state for chat history
     if "chat_history" not in st.session_state:
