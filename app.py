@@ -1,7 +1,7 @@
 import streamlit as st
 from openai import OpenAI
-import os
-from dotenv import load_dotenv
+# import os
+# from dotenv import load_dotenv
 import logging
 
 # Configure logging to see output in the console
@@ -9,12 +9,12 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Load environment variables (for API key)
-load_dotenv()
+# load_dotenv()
 
 # Initialize the OpenAI client for OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("DEEPSEEK_API_KEY"),  # Ensure you have DEEPSEEK_API_KEY in your .env file
+    api_key=st.secrets["DEEPSEEK_API_KEY"],  # Ensure you have DEEPSEEK_API_KEY in your .env file
 )
 
 # Bot backstory (Only modifiable in the code by developers)
