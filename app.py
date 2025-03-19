@@ -9,7 +9,11 @@ logger = logging.getLogger(__name__)
 # Initialize the OpenAI client for OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=st.secrets["DEEPSEEK_API_KEY"],  # Use Streamlit secrets
+    api_key=st.secrets["DEEPSEEK_API_KEY"],
+    default_headers={
+        "HTTP-Referer": "https://room-service.streamlit.app/",  # Replace with your app’s URL
+        "X-Title": "Room Service Assistant"  # Replace with your app’s name
+    }
 )
 
 # Bot backstory (unchanged)
