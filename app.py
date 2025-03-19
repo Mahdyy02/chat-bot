@@ -14,7 +14,7 @@ load_dotenv()
 # Initialize the OpenAI client for OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=st.secrets["DEEPSEEK_API_KEY"],  # Ensure you have DEEPSEEK_API_KEY in your .env file
+    api_key="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",  # Ensure you have DEEPSEEK_API_KEY in your .env file
 )
 
 # Bot backstory (Only modifiable in the code by developers)
