@@ -6,10 +6,17 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+try:
+    api_key = st.secrets["DEEPSEEK_API_KEY"]
+    logger.debug("API Key loaded: %s", api_key[:4] + "..." + api_key[-4:])  # Log partial key for security
+except KeyError as e:
+    logger.error("Failed to load DEEPSEEK_API_KEY from secrets: %s", str(e))
+    api_key = None
+
 # Initialize the OpenAI client for OpenRouter
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=st.secrets["DEEPSEEK_API_KEY"],
+    api_key=api_key,
     default_headers={
         "HTTP-Referer": "https://room-service.streamlit.app/",  # Replace with your app’s URL
         "X-Title": "Room Service Assistant"  # Replace with your app’s name
